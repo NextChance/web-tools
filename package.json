@@ -18,5 +18,8 @@
   "homepage": "https://github.com/NextChance/web-utils#readme",
   "devDependencies": {
     "@types/node": "^16.11.7"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0"
   }
 }
