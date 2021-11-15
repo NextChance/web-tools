@@ -34,7 +34,7 @@ const pruneDirectory = async (folder) => {
   }
 }
 
-exports.pruneAndCopyAllFilesOnce = (config) => {
+export const pruneAndCopyAllFilesOnce = (config) => {
   process.env.NC43_DEPENDENCY_CONFIG = JSON.stringify(config)
   config.forEach((config) => {
     pruneDirectory(config.destination).then(() => {
@@ -42,7 +42,7 @@ exports.pruneAndCopyAllFilesOnce = (config) => {
     })
   })
 }
-exports.watchFiles = () => {
+export const watchFiles = () => {
   const config = JSON.parse(process.env.NC43_DEPENDENCY_CONFIG)
   config.forEach((config) => {
     initWatchers(config)
