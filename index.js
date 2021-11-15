@@ -42,7 +42,7 @@ exports.pruneAndCopyAllFilesOnce = (config) => {
     })
   })
 }
-exports.watchUIFiles = () => {
+exports.watchFiles = () => {
   const config = JSON.parse(process.env.NC43_DEPENDENCY_CONFIG)
   config.forEach((config) => {
     initWatchers(config)
