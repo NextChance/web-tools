@@ -1,4 +1,2 @@
 #!/usr/bin/env node
-import { watchFiles } from './index.js'
-
-watchFiles()
+require('./index.js').watchFiles()
