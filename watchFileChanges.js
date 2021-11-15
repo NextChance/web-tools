@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-import { watchFiles } from 'index'
+import { watchFiles } from './index.js'
 
 watchFiles()

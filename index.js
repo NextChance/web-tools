@@ -1,4 +1,4 @@
-const fs = require('fs-extra')
+import fs from 'fs-extra'
 
 const copyFile = (origin, destination) => {
   fs.copy(origin, destination, function (err) {
@@ -42,9 +42,15 @@ export const pruneAndCopyAllFilesOnce = (config) => {
     })
   })
 }
+
 export const watchFiles = () => {
-  const config = JSON.parse(process.env.NC43_DEPENDENCY_CONFIG)
-  config.forEach((config) => {
-    initWatchers(config)
-  })
+  const nc43DependencyConfig = process.env.NC43_DEPENDENCY_CONFIG
+  if (nc43DependencyConfig) {
+    const config = JSON.parse(nc43DependencyConfig)
+    config.forEach((config) => {
+      initWatchers(config)
+    })
+  } else {
+    console.log('-----> ', 'Env variable not found')
+  }
 }
