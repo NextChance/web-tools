@@ -6,7 +6,9 @@ class LocalStorage {
   data: Data
 
   constructor () {
-    this.data = JSON.parse(process.env.LOCAL_STORAGE || '{}')
+    if (!window?.localStorage) {
+      this.data = JSON.parse(process?.env?.LOCAL_STORAGE || '{}')
+    }
   }
 
   get (key: string, defaultValue: string = ''): string {
