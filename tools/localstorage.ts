@@ -6,6 +6,7 @@ class LocalStorage {
   data: Data
 
   constructor () {
+    this.data = {}
     if (!window?.localStorage) {
       this.data = JSON.parse(process?.env?.LOCAL_STORAGE || '{}')
     }
