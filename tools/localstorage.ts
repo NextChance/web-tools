@@ -7,13 +7,13 @@ class LocalStorage {
 
   constructor () {
     this.data = {}
-    if (!window?.localStorage) {
+    if (typeof window !== 'undefined' && !window.localStorage) {
       this.data = JSON.parse(process?.env?.LOCAL_STORAGE || '{}')
     }
   }
 
   get (key: string, defaultValue: string = ''): string {
-    if (window?.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       return window.localStorage[key] === undefined
         ? defaultValue
         : window.localStorage.getItem(key) || ''
@@ -23,7 +23,7 @@ class LocalStorage {
   }
 
   set (key:string, value:string):void {
-    if (window?.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       window.localStorage.setItem(key, value)
     } else {
       this.data[key] = value
@@ -32,7 +32,7 @@ class LocalStorage {
   }
 
   remove (key:string):void {
-    if (window?.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       window.localStorage.removeItem(key)
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
