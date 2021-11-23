@@ -1,12 +1,22 @@
 const fs = require('fs-extra')
 
-const copyFile = (origin, destination) => {
-  fs.copy(origin, destination, function (err) {
+const copyFile = (origin, destination, componentVersion) => {
+  const rgxVue = /.*(\.vue)$/
+  const opts = {
+    filter: (origin, destination) => {
+      if (rgxVue.test(origin) && !origin.includes(componentVersion)) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }
+  fs.copy(origin, destination, opts, function (err) {
     if (err) {
       console.error(`An error occured while copying ${origin}.`)
       return console.error(err)
     }
-    console.log(`Copy ${origin} completed!`)
+    console.log(`Copy ${origin} completed !`)
   })
 }
 
@@ -36,17 +46,17 @@ const pruneDirectory = async (folder) => {
 
 exports.pruneAndCopyAllFilesOnce = (config) => {
   process.env.NC43_DEPENDENCY_CONFIG = JSON.stringify(config)
-  config.forEach((config) => {
-    pruneDirectory(config.destination).then(() => {
-      copyFile(config.source, config.destination)
+  config.forEach((_config) => {
+    pruneDirectory(_config.destination).then(() => {
+      copyFile(_config.source, _config.destination, _config.componentVersion)
     })
   })
 }
 
 exports.watchFiles = (config) => {
   if (config) {
-    config.forEach((config) => {
-      initWatchers(config)
+    config.forEach((_config) => {
+      initWatchers(_config)
     })
   } else {
     console.log('-----> ', 'Config not found')
