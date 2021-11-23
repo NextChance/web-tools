@@ -3,3 +3,9 @@ export default interface Image {
   srcset?: string
   alt?: string
 }
+
+export interface DiscoveryImage {
+  url: string
+  title: string
+  original_url: string
+}
