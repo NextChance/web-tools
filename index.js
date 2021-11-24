@@ -4,7 +4,8 @@ const copyFile = (origin, destination, componentVersion) => {
   const rgxVue = /.*(\.vue)$/
   const opts = {
     filter: (origin, destination) => {
-      if (rgxVue.test(origin) && !origin.includes(componentVersion)) {
+      if (rgxVue.test(origin) && (componentVersion && !origin.includes(componentVersion))) {
+        console.log('peteeeeeeee', componentVersion)
         return false
       } else {
         return true
