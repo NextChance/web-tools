@@ -48,7 +48,6 @@ exports.pruneAndCopyAllFilesOnce = (config) => {
 }
 
 exports.watchFiles = (config) => {
-  console.log('-----> ', 'watch()')
   if (config) {
     config.forEach((_config) => {
       initWatchers(_config)
