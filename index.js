@@ -3,13 +3,7 @@ const fs = require('fs-extra')
 const copyFile = (origin, destination, componentVersion) => {
   const rgxVue = /.*(\.vue)$/
   const opts = {
-    filter: (origin, destination) => {
-      if (rgxVue.test(origin) && !origin.includes(componentVersion)) {
-        return false
-      } else {
-        return true
-      }
-    }
+    filter: (origin) => !componentVersion || !rgxVue.test(origin) || origin.includes(componentVersion)
   }
   fs.copy(origin, destination, opts, function (err) {
     if (err) {
@@ -54,6 +48,7 @@ exports.pruneAndCopyAllFilesOnce = (config) => {
 }
 
 exports.watchFiles = (config) => {
+  console.log('-----> ', 'watch()')
   if (config) {
     config.forEach((_config) => {
       initWatchers(_config)

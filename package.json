@@ -23,6 +23,7 @@
     "fs-extra": "^10.0.0"
   },
   "bin": {
-    "watchExternal": "./watchFileChanges.js"
+    "watchExternal": "./watchFileChanges.js",
+    "pruneAndCopyExternal": "./pruneAndCopyFiles.js"
   }
 }
