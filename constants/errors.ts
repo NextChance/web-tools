@@ -1,11 +1,11 @@
 export const API_ERRORS = {
     unauthorized: {
         code: 401,
-        type: 'unauthorized'
+        type: 'Unauthorized'
     },
     forbidden: {
         code: 403,
-        type: 'forbidden'
+        type: 'Forbidden'
     },
     server_error: {
         code: 500,
