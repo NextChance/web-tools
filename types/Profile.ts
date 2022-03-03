@@ -8,6 +8,6 @@ export default interface Profile {
 
 export interface ProfileImgUI {
   url: string
-  srcSet: string
-  smallest: string
+  srcSet?: string
+  smallest?: string
 }
