@@ -7,6 +7,7 @@ export default class Failure {
     public message: string
     public type: string
     public code: number | undefined
+    public loginRequire: boolean
     public isBlocker: boolean
     public canRetry: boolean
 
@@ -25,6 +26,7 @@ export default class Failure {
         this.canRetry = typeof options.canRetry === 'undefined'
             ? Failure.getRetryStatus(type, status)
             : options.canRetry
+        this.loginRequire = status === API_ERRORS.forbidden.code
     }
 
     private static getBlockerStatus (type: string, code: number|undefined) {
