@@ -20,7 +20,8 @@
     "@types/node": "^16.11.7"
   },
   "dependencies": {
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "ts-exif-parser": "^0.2.1"
   },
   "bin": {
     "watchExternal": "./watchFileChanges.js",
