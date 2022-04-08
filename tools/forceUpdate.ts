@@ -6,14 +6,13 @@ export const convertVersionString = (versionString: string) => {
 
 export const compareVersions = (versionA: Array<string>, versionB: Array<string>) => {
   return versionA.reduce((acc: number, posA: string, idx: number) =>
-      !acc
-        ? Math.sign(parseInt(posA) - parseInt(versionB[idx]))
-        : acc
-    , 0)
+    !acc
+      ? Math.sign(parseInt(posA) - parseInt(versionB[idx]))
+      : acc
+  , 0)
 }
 
-export default (minVersion: string) => {
-  const codeVersion: string = process.env.APP_VERSION || ''
+export default (minVersion: string, codeVersion: string = '') => {
   if (process.env.ENVIRONMENT !== 'prod') {
     console.log(`[ForceUpdate] codeVersion:${codeVersion} // requiredVersion:${minVersion}`)
   }
@@ -44,4 +43,5 @@ export default (minVersion: string) => {
     } else {
       LocalStorage.set('tryedToUpgrade', '0')
     }
+  }
 }
