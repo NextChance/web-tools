@@ -7,13 +7,15 @@ export default class Failure {
     public message: string
     public type: string
     public code: number | undefined
+    public keys: Array<string> | undefined
     public loginRequire: boolean
     public isBlocker: boolean
     public canRetry: boolean
 
     constructor ({ message, response }: CustomError, options: ErrorOptions  = {}) {
-        const { status, data: { type } } = response || { data: {} }
+        const { status, data: { type, keys } } = response || { data: {} }
         this.message = message
+        this.keys = keys
         this.type = typeof options.type === 'undefined'
             ? type || API_ERRORS.server_error.type
             : options.type

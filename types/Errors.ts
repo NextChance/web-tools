@@ -1,7 +1,8 @@
 export interface CustomError {
     response: {
         data: {
-            type: string
+            type: string,
+            keys?: Array<string>
         }
         status: number|undefined
     }
