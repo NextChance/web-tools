@@ -1,4 +1,4 @@
-import AnyObject from '../types/AnyObject'
+import type AnyObject from '../types/AnyObject'
 
 const compareShallow = (obj1: AnyObject|Array<any>, obj2: AnyObject|Array<any>): boolean => {
   let item1: AnyObject

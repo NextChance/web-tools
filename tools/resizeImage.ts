@@ -1,6 +1,6 @@
-import {MockFile} from "../types/Files";
+import type { MockFile } from "../types/Files";
 import ImageProcessor from "../classes/ImageProcessor";
-import {processImageResponse} from "../types/Image";
+import type { processImageResponse } from "../types/Image";
 
 interface resizeConfig {
     originalFile: MockFile

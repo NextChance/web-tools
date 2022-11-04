@@ -1,4 +1,4 @@
-import { ErrorOptions , CustomError} from '../types/Errors'
+import type { ErrorOptions , CustomError} from '../types/Errors'
 
 import { API_ERRORS } from '../constants/errors'
 

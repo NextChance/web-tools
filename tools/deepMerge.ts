@@ -1,4 +1,4 @@
-import AnyObject from '../types/AnyObject'
+import type AnyObject from '../types/AnyObject'
 
 const deepMerge = (ob1:any, ob2:any) => {
     let result:AnyObject = {}
