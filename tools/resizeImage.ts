@@ -25,7 +25,8 @@ const _processImageUntilSizeFits = async ({ originalFile, limit, isContain = tru
             isContain,
             limit,
             width: Math.ceil(reductionRatio * width),
-            height: Math.ceil(reductionRatio * height)
+            height: Math.ceil(reductionRatio * height),
+            reductionRatio
         })
     } else {
         return { formattedImage, file }
