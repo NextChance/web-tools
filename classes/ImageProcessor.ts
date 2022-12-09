@@ -1,8 +1,8 @@
 import { ExifParserFactory, OrientationTypes } from 'ts-exif-parser'
-import {
+import { Measures } from "../types/Image";
+import type {
     ImageResizeValuesArguments,
     ImageTransformArguments,
-    Measures,
     MeasuresObject,
     ProcessConfig,
     ProcessFileArgs

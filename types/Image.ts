@@ -1,5 +1,5 @@
-import { ExifParserFactory, OrientationTypes } from 'ts-exif-parser'
-import {MockFile} from "./Files";
+import type { OrientationTypes } from "ts-exif-parser";
+import type { MockFile } from "./Files";
 
 export default interface Image {
   src: string
