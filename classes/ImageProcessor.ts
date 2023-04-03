@@ -166,7 +166,7 @@ export default class ImageProcessor {
         return new Promise((resolve, reject) => {
             imageTag.onload = () => {
                 const orientation = this.getImageOrientation(imageBuffer, mimeType)
-                this.isRotated = orientation === 6 || orientation === 8 || orientation === 1 || orientation === 3
+                this.isRotated = orientation === 5 || orientation === 6 || orientation === 7 || orientation === 8
                 this.imageSideOrder = this.isRotated
                     ? [Measures.width, Measures.height]
                     : [Measures.height, Measures.width]
