@@ -20,8 +20,6 @@ export interface processImageResponse {
 
 export default class ImageProcessor {
     canvas!: HTMLCanvasElement
-    isRotated!: boolean
-    imageSideOrder!: Array<Measures>
 
     constructor (canvasWidth: number, canvasHeight: number) {
         this.setupCanvas(canvasWidth, canvasHeight)
@@ -66,55 +64,21 @@ export default class ImageProcessor {
                                  imageMeasures = {
                                      height: 1,
                                      width: 1
-                                 },
-                                 orientation = 1,
-                                 isContain = true
+                                 }
                              }: ImageTransformArguments) {
-        // const canvasAspectRatio = canvas.width / canvas.height
-        // const imageAspectRatio = imageMeasures.width / imageMeasures.height
-        const centerHeight = (imageMeasures.height - canvas[this.isRotated ? Measures.width : Measures.height]) / 2
-        const centerWidth = (imageMeasures.width - canvas[this.isRotated ? Measures.height : Measures.width]) / 2
-        // const centerHeightRotated = imageAspectRatio > 1 || canvasAspectRatio > imageAspectRatio
-        //   ? -centerWidth
-        //   : centerWidth
-
-        switch (orientation) {
-            // case 3:
-            //   // | x |   |
-            //   // |   | o |
-            //   return {
-            //     degreesToRotate: 180,
-            //     translateX: isContain ? imageMeasures[this.imageSideOrder[0]] : canvas.width + centerWidth,
-            //     translateY: isContain ? imageMeasures[this.imageSideOrder[1]] : canvas.height + centerHeight
-            //   }
-            // case 6:
-            //   // |   | x |
-            //   // |   | o |
-            //   return {
-            //     degreesToRotate: 270,
-            //     translateX: isContain ? 0 : -centerHeight,
-            //     translateY: isContain ? imageMeasures[this.imageSideOrder[1]] : canvas.height - centerHeightRotated
-            //   }
-            // case 8:
-            //   // |   |   |
-            //   // | x | o |
-            //   return {
-            //     degreesToRotate: 90,
-            //     translateX: isContain ? imageMeasures[this.imageSideOrder[0]] : canvas.width + centerHeight,
-            //     translateY: isContain ? 0 : centerHeightRotated
-            //   }
-            default:
-                return {
-                    degreesToRotate: 0,
-                    translateX: isContain ? 0 : -centerWidth,
-                    translateY: isContain ? 0 : -centerHeight
-                }
+        const centerHeight = (imageMeasures.height - canvas[Measures.height]) / 2
+        const centerWidth = (imageMeasures.width - canvas[Measures.width]) / 2
+        return {
+            degreesToRotate: 0,
+            translateX: -centerWidth,
+            translateY: -centerHeight
         }
     }
 
     getAspectRatioRelationship (canvas: MeasuresObject, image: MeasuresObject) {
         const canvasAspectRatio = canvas.width / canvas.height
-        const imageAspectRatio = image[this.imageSideOrder[0]] / image[this.imageSideOrder[1]]
+        const imageAspectRatio = image[Measures.width] / image[Measures.height]
+
         return canvasAspectRatio > imageAspectRatio
     }
 
@@ -130,20 +94,14 @@ export default class ImageProcessor {
                               isContain = false
                           }: ImageResizeValuesArguments): MeasuresObject {
         const isCanvasMoreLandscapeThanImage = this.getAspectRatioRelationship(canvas, image)
-
-        const canvasLeadingSide = isContain === isCanvasMoreLandscapeThanImage ? Measures.height : Measures.width
-        const imageLeadingSide = isContain === isCanvasMoreLandscapeThanImage ? this.imageSideOrder[1] : this.imageSideOrder[0]
-        const isReducing = canvas[canvasLeadingSide] < image[imageLeadingSide]
-        const resizeRatio = canvas[canvasLeadingSide] / image[imageLeadingSide]
+        const leadingSize = isContain === isCanvasMoreLandscapeThanImage ? Measures.height : Measures.width
+        const isReducing = canvas[leadingSize] < image[leadingSize]
+        const resizeRatio = canvas[leadingSize] / image[leadingSize]
 
         if (isReducing) {
             return {
-                [this.imageSideOrder[0]]: isContain === isCanvasMoreLandscapeThanImage
-                    ? image[this.imageSideOrder[0]] * resizeRatio
-                    : canvas.width,
-                [this.imageSideOrder[1]]: isContain === isCanvasMoreLandscapeThanImage
-                    ? canvas.height
-                    : image[this.imageSideOrder[1]] * resizeRatio
+                [Measures.height]: image[Measures.height] * resizeRatio,
+                [Measures.width]: image[Measures.width] * resizeRatio
             } as MeasuresObject
         } else {
             return {
@@ -165,11 +123,6 @@ export default class ImageProcessor {
         const imageTag = document.createElement('img')
         return new Promise((resolve, reject) => {
             imageTag.onload = () => {
-                const orientation = this.getImageOrientation(imageBuffer, mimeType)
-                this.isRotated = orientation === 5 || orientation === 6 || orientation === 7 || orientation === 8
-                this.imageSideOrder = this.isRotated
-                    ? [Measures.width, Measures.height]
-                    : [Measures.height, Measures.width]
                 const measures = this.getImageResizeValues({
                     canvas: this.canvas,
                     image: imageTag,
@@ -180,11 +133,7 @@ export default class ImageProcessor {
                     degreesToRotate,
                     translateX,
                     translateY
-                } = this.getImageTransformValues({ canvas: this.canvas, orientation, imageMeasures: measures, isContain })
-
-                if (isContain) {
-                    this.setupCanvas(measures[this.imageSideOrder[0]], measures[this.imageSideOrder[1]])
-                }
+                } = this.getImageTransformValues({ canvas: this.canvas, imageMeasures: measures })
 
                 const ctx = this.canvas.getContext('2d')
                 ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)

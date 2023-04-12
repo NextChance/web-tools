@@ -48,9 +48,7 @@ export interface ProcessFileArgs {
 
 export interface ImageTransformArguments {
   canvas: MeasuresObject,
-  imageMeasures: MeasuresObject,
-  orientation: OrientationTypes,
-  isContain: boolean
+  imageMeasures: MeasuresObject
 }
 
 export interface ImageResizeValuesArguments {
